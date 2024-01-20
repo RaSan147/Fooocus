@@ -203,6 +203,9 @@ class BrownianTreeNoiseSamplerPatched:
 def compute_cfg(uncond, cond, cfg_scale, t):
     global adaptive_cfg
 
+    if adaptive_cfg is None:
+        adaptive_cfg = 7.0
+
     mimic_cfg = float(adaptive_cfg)
     real_cfg = float(cfg_scale)
 
@@ -263,6 +266,12 @@ def sdxl_encode_adm_patched(self, **kwargs):
     target_width = width
     target_height = height
 
+    if negative_adm_scale is None:
+        negative_adm_scale = .8
+
+    if positive_adm_scale is None:
+        positive_adm_scale = 1.5
+
     if kwargs.get("prompt_type", "") == "negative":
         width = float(width) * negative_adm_scale
         height = float(height) * negative_adm_scale
@@ -321,6 +330,10 @@ def patched_KSamplerX0Inpaint_forward(self, x, sigma, uncond, cond, cond_scale, 
 
 
 def timed_adm(y, timesteps):
+    global adm_scaler_end
+    if adm_scaler_end is None:
+        adm_scaler_end = 0.3
+
     if isinstance(y, torch.Tensor) and int(y.dim()) == 2 and int(y.shape[1]) == 5632:
         y_mask = (timesteps > 999.0 * (1.0 - float(adm_scaler_end))).to(y)[..., None]
         y_with_adm = y[..., :2816].clone()

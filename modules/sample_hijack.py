@@ -176,7 +176,8 @@ def calculate_sigmas_scheduler_hacked(model, scheduler_name, steps):
     elif scheduler_name == "turbo":
         sigmas = SDTurboScheduler().get_sigmas(namedtuple('Patcher', ['model'])(model=model), steps=steps, denoise=1.0)[0]
     else:
-        raise TypeError("error invalid scheduler")
+        # default to karras
+        sigmas = k_diffusion_sampling.get_sigmas_karras(n=steps, sigma_min=float(model.model_sampling.sigma_min), sigma_max=float(model.model_sampling.sigma_max))
     return sigmas
 
 

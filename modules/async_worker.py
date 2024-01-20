@@ -337,16 +337,16 @@ def worker():
 
         switch = int(round(steps * refiner_switch))
 
-        if advanced_parameters.overwrite_step > 0:
+        if advanced_parameters.overwrite_step and advanced_parameters.overwrite_step > 0:
             steps = advanced_parameters.overwrite_step
 
-        if advanced_parameters.overwrite_switch > 0:
+        if advanced_parameters.overwrite_switch and advanced_parameters.overwrite_switch > 0:
             switch = advanced_parameters.overwrite_switch
 
-        if advanced_parameters.overwrite_width > 0:
+        if advanced_parameters.overwrite_width and advanced_parameters.overwrite_width > 0:
             width = advanced_parameters.overwrite_width
 
-        if advanced_parameters.overwrite_height > 0:
+        if advanced_parameters.overwrite_height and advanced_parameters.overwrite_height > 0:
             height = advanced_parameters.overwrite_height
 
         print(f'[Parameters] Sampler = {sampler_name} - {scheduler_name}')

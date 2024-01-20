@@ -319,7 +319,8 @@ def process_diffusion(positive_cond, negative_cond, steps, switch, width, height
     target_unet, target_vae, target_refiner_unet, target_refiner_vae, target_clip \
         = final_unet, final_vae, final_refiner_unet, final_refiner_vae, final_clip
 
-    assert refiner_swap_method in ['joint', 'separate', 'vae']
+    if refiner_swap_method not in ['joint', 'separate', 'vae']:
+        refiner_swap_method = 'joint'
 
     if final_refiner_vae is not None and final_refiner_unet is not None:
         # Refiner Use Different VAE (then it is SD15)
